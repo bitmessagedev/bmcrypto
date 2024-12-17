@@ -1,4 +1,6 @@
-from ctypes import CDLL, POINTER, c_char, c_char_p, c_int, c_size_t, c_uint, c_void_p, create_string_buffer
+import sys
+from ctypes import CDLL, POINTER, c_char, c_char_p, c_int, c_size_t, c_ulong, c_void_p
+from ctypes.util import find_library
 from Singleton import Singleton
 
 __all__ = ['OpenSSLMetaclass']
