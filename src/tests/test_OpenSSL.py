@@ -1,6 +1,8 @@
 from binascii import unhexlify
 from unittest import TestCase
 
+from OpenSSL import OpenSSL
+
 p = unhexlify('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F')
 order = unhexlify('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141')
 zero_256bit = b'\x00' * 32
