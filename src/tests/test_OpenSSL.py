@@ -20,4 +20,4 @@ class TestOpenSSL(TestCase):
     self.assertGreaterEqual(public_key[1:33], zero_256bit)
     self.assertLess(public_key[1:33], p)
     self.assertGreaterEqual(public_key[33:65], zero_256bit)
-    self.assertLess(public_key[33:65, p)
+    self.assertLess(public_key[33:65], p)
