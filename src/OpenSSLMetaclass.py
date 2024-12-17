@@ -55,15 +55,21 @@ _signatures = [
   ('OBJ_sn2nid', c_int, [c_char_p])
 ]
 def declare_functions(attr):
-    name = 'libcrypto.dll' if sys.platform == 'win32' else 'crypto'
-    lib = CDLL(find_library(name))
-    for name, restype, argtypes in _signatures:
-        func = getattr(lib, name)
-        func.restype = restype
-        func.argtypes = argtypes
-        attr[name] = func
+  names = {
+    'win32': 'libcrypto-1_1-x64.dll',
+    'darwin': 'crypto.1.1'
+  }
+  name = names.get(sys.platform, 'crypto')
+  pathname = find_library(name)
+  print('Found libcrypto at', pathname)
+  lib = CDLL(pathname)
+  for name, restype, argtypes in _signatures:
+    func = getattr(lib, name)
+    func.restype = restype
+    func.argtypes = argtypes
+    attr[name] = func
 
 class OpenSSLMetaclass(Singleton):
-    def __new__(cls, name, bases, dct):
-        declare_functions(dct)
-        return super(OpenSSLMetaclass, cls).__new__(cls, name, bases, dct)
+  def __new__(cls, name, bases, dct):
+    declare_functions(dct)
+    return super(OpenSSLMetaclass, cls).__new__(cls, name, bases, dct)
