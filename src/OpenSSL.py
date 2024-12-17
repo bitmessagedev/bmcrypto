@@ -55,3 +55,5 @@ class OpenSSL(object, metaclass=OpenSSLMetaclass):
       return raw_private_key, raw_public_key
     finally:
       self.EC_KEY_free(key)
+
+OpenSSL = OpenSSL()
