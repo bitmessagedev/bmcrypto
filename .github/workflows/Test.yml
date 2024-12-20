@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Discover libs
-        run: ${{ discover }}
+        run: ${{ matrix.discover }}
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
