@@ -57,7 +57,7 @@ _signatures = [
 def declare_functions(attr):
   names = {
     'win32': 'libcrypto-1_1-x64.dll',
-    'darwin': 'crypto.1.1'
+    'darwin': 'crypto.46.2'
   }
   name = names.get(sys.platform, 'crypto')
   pathname = find_library(name)
