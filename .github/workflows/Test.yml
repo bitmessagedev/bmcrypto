@@ -9,26 +9,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-14
-            python-version: "3.13.1"
-            shell: ""
-            discover: "" #"find / -mount -name \"libcrypto*.dylib\" -type f -print 2>/dev/null"
-          - os: ubuntu-22.04
-            python-version: "3.10.12"
-            shell: ""
-            discover: "find / -mount -name \"libcrypto*.so*\" -type f -print 2>/dev/null"
+          #- os: macos-14
+          #  python-version: "3.13.1"
+          #  discover: "" #"find / -mount -name \"libcrypto*.dylib\" -type f -print 2>/dev/null"
+          #- os: ubuntu-22.04
+          #  python-version: "3.10.12"
+          #  discover: "find / -mount -name \"libcrypto*.so*\" -type f -print 2>/dev/null"
           - os: windows-2022
             python-version: "3.9.13"
-            shell: "cmd"
             discover: "dir C:\\libcrypto*.dll /a:-d /s /b"
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Discover libs
-        if: ${{ matrix.discover != '' }}
         continue-on-error: true
-        shell: ${{ matrix.shell }}
+        shell: cmd
         run: ${{ matrix.discover }}
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
