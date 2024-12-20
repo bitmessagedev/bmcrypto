@@ -4,16 +4,30 @@ on: workflow_dispatch
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    name: Test on ${{ matrix.os }}, Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-    
+        include:
+          - os: macos-14
+            python-version: "3.13.1"
+            discover: "find / -mount -name \"libcrypto*.dylib\" -type f -print 2>/dev/null"
+          - os: ubuntu-2204
+            python-version: "3.10.12"
+            discover: "find / -mount -name \"libcrypto*.so*\" -type f -print 2>/dev/null"
+          - os: windows-2022
+            python-version: "3.9.13"
+            discover: "Get-ChildItem -Path C:\\ -File -Recurse -Filter *libcrypto*.dll -ErrorAction SilentlyContinue | Format-Wide -Property FullName -Column 1"
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up default Python
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Discover libs
+        run: ${{ discover }}
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Display Python version
         run: python -VV
       - name: Test with unittest
